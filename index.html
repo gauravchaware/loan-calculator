@@ -230,6 +230,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        let loanChart;
+
         function calculateEMI() {
             const principal = parseFloat(document.getElementById('principal').value);
             const rate = parseFloat(document.getElementById('rate').value) / 12 / 100;
@@ -246,13 +248,17 @@
             const totalPayment = emi * time;
             const interest = totalPayment - principal;
 
-            // Call function to draw pie chart
-            drawPieChart(principal, interest);
+            updatePieChart(principal, interest);
         }
 
-        function drawPieChart(principal, interest) {
+        function updatePieChart(principal, interest) {
             const ctx = document.getElementById('loanChart').getContext('2d');
-            new Chart(ctx, {
+
+            if (loanChart) {
+                loanChart.destroy();
+            }
+
+            loanChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
                     labels: ['Principal', 'Interest'],
