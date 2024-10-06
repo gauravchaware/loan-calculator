@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online Loan/EMI Calculator. Calculate monthly loan repayments easily.">
+    <meta name="keywords" content="EMI calculator, loan calculator, monthly repayment, interest rate, loan term">
+    <meta name="author" content="YourName">
+    <meta property="og:title" content="Loan/EMI Calculator - Calculate Your Monthly Payments">
+    <meta property="og:description" content="Use our free online Loan/EMI Calculator to calculate your monthly loan repayments easily.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gauravchaware.github.io/loan-calculator">
+    <meta property="og:image" content="https://gauravchaware.github.io/images/loan-tool-thumbnail.jpg">
+    <meta property="og:site_name" content="Loan/EMI Calculator">
+    <title>Loan/EMI Calculator - Free Online Tool</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #28a745;
+        }
+
+        .btn {
+            display: block;
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .output-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .output {
+            flex: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e2e3e5;
+            text-align: center;
+        }
+
+        .output h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .output p {
+            font-size: 22px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        canvas {
+            max-width: 300px;
+            max-height: 300px;
+            flex: 1;
+            margin: 0 auto;
+        }
+
+        .faq-section {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
+        }
+
+        .faq-section h2 {
+            font-size: 22px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .faq {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #e2e3e5;
+            border-radius: 10px;
+        }
+
+        .faq h3 {
+            font-size: 18px;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .faq p {
+            font-size: 16px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .output-container {
+                flex-direction: column;
+            }
+
+            .faq-section {
+                padding: 15px;
+            }
+
+            .faq h3 {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Loan/EMI Calculator</h1>
+        <p>Calculate your monthly loan repayment using the principal amount, interest rate, and loan term.</p>
+
+        <div class="input-group">
+            <input type="number" id="principal" placeholder="Loan Amount (Principal)">
+            <input type="number" id="rate" placeholder="Annual Interest Rate (%)">
+            <input type="number" id="time" placeholder="Loan Term (Years)">
+        </div>
+        <button class="btn" onclick="calculateEMI()">Calculate EMI</button>
+
+        <div class="output-container">
+            <canvas id="loanChart"></canvas>
+
+            <div class="output" id="output">
+                <h2>Monthly EMI:</h2>
+                <p id="emi"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <h2>Frequently Asked Questions (FAQs)</h2>
+
+        <div class="faq">
+            <h3>What is EMI?</h3>
+            <p>EMI (Equated Monthly Installment) is the fixed amount of money paid by a borrower to a lender at a specified date each month. It includes both principal and interest.</p>
+        </div>
+
+        <div class="faq">
+            <h3>How is EMI calculated?</h3>
+            <p>EMI is calculated using the loan principal, interest rate, and the loan term. The formula is: <br><strong>EMI = [P x r x (1 + r)^n] / [(1 + r)^n - 1]</strong>, where P is the loan amount, r is the monthly interest rate, and n is the loan term in months.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        function calculateEMI() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value) / 12 / 100;
+            const time = parseFloat(document.getElementById('time').value) * 12;
+
+            if (isNaN(principal) || isNaN(rate) || isNaN(time)) {
+                document.getElementById('emi').textContent = "Please enter valid numbers.";
+                return;
+            }
+
+            const emi = (principal * rate * Math.pow(1 + rate, time)) / (Math.pow(1 + rate, time) - 1);
+            document.getElementById('emi').textContent = `₹ ${emi.toFixed(2)}`;
+
+            const totalPayment = emi * time;
+            const interest = totalPayment - principal;
+
+            // Call function to draw pie chart
+            drawPieChart(principal, interest);
+        }
+
+        function drawPieChart(principal, interest) {
+            const ctx = document.getElementById('loanChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Principal', 'Interest'],
+                    datasets: [{
+                        data: [principal, interest],
+                        backgroundColor: ['#28a745', '#007bff'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
